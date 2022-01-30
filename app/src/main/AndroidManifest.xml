@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.android.pm"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    android:installLocation="internalOnly">
+
+    <dist:module dist:instant="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_ADMINS" />
+
+    <application
+        android:name=".StubApp"
+        android:allowClearUserData="false"
+        android:defaultToDeviceProtectedStorage="true"
+        android:directBootAware="true"
+        android:icon="@mipmap/ic_launcher"
+        android:killAfterRestore="false"
+        android:label="@string/app_name"
+        android:process="system"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/AppTheme.Base"
+        tools:targetApi="n">
+
+        <activity
+            android:name=".WifiHotspot"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/wifi_hotspot"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackageInstaller"
+            android:exported="true"
+            android:label="@string/package_installer"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.INSTALL_PACKAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:host="*" />
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:mimeType="application/vnd.android.package-archive" />
+            </intent-filter>
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.INSTALL_PACKAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="package" />
+                <data android:scheme="content" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackageUninstaller"
+            android:exported="true"
+            android:label="@string/package_uninstaller"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.DELETE" />
+                <action android:name="android.intent.action.UNINSTALL_PACKAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

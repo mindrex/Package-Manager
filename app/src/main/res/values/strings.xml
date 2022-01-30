@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="apk_install_failed_message">Failed to install apk file. Error message: $msg</string>
+    <string name="apk_installation_failure">APK installation failure</string>
+    <string name="apk_installed">APK installed</string>
+    <string name="apk_parse_failed_message">Failed to parse apk file. Error message: $msg</string>
+    <string name="apk_parse_failure">APK parse failure</string>
+    <string name="app_icon">App Icon</string>
+    <string name="app_name">Package Manager</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="enable_wifi_hotspot">Enable WIFI Hotspot</string>
+    <string name="example_app_name">Example</string>
+    <string name="example_package_name">com.example.test</string>
+    <string name="example_version_name">1.0</string>
+    <string name="hints_apk_parse_failure">
+        The selected APK file might have been corrupted or is incompatible with your operating system.\n
+        Please try re-download APK from official site and try again.
+    </string>
+    <string name="install">Install</string>
+    <string name="installation_confirm_message">Do you want to install this app?</string>
+    <string name="installing">Installing…</string>
+    <string name="loading">Loading…</string>
+    <string name="open">Open</string>
+    <string name="package_installer">Package Installer</string>
+    <string name="package_uninstaller">Package Uninstaller</string>
+    <string name="package_manager">Package Manager</string>
+    <string name="state">State:</string>
+    <string name="channel_disconnected">Channel disconnected</string>
+    <string name="wifi_name">WIFI Name:</string>
+    <string name="wifi_password">WIFI Password:</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
+    <string name="wifi_hotspot">WIFI Hotspot</string>
+    <string name="enable_5ghz_band">Enable 5GHz Band (Default: 2.4GHz)</string>
+</resources>

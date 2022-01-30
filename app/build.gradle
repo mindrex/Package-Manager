@@ -1,0 +1,28 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
+    ndkVersion "23.1.7779620"
+
+    defaultConfig {
+        applicationId "com.android.pm"
+        minSdkVersion 14
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled false
+        signingConfig signingConfigs.debug
+    }
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compileOnly fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.github.topjohnwu.libsu:core:3.1.1"
+    implementation "androidx.appcompat:appcompat:1.4.1"
+}
