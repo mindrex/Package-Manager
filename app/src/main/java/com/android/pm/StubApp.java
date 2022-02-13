@@ -1,11 +1,16 @@
 package com.android.pm;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
+
+import com.topjohnwu.superuser.Shell;
 
 import java.util.Locale;
 
@@ -25,7 +30,30 @@ public final class StubApp extends Application {
         getResources().updateConfiguration(config, displayMetrics);
     }
 
-    static StubInterface getStubInterface() {
-        return StubInterfaceImpl.getInstance();
+    private void getPermission(String name) {
+        final Shell sh = Shell.getShell();
+        if (!sh.isRoot())
+            Log.w("Application", "no root access, cannot get permission " + name);
+        final Shell.Result r = sh.newJob().add("pm grant " + getPackageName() + " " + name).exec();
+        if (!r.isSuccess())
+            Log.w("Application", "failed to get permission " + name);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final String[] perms = {
+                    Manifest.permission.WRITE_SECURE_SETTINGS,
+                    Manifest.permission.INSTALL_PACKAGES,
+                    Manifest.permission.DELETE_PACKAGES,
+                    "android.permission.INTERACT_ACROSS_USERS_FULL",
+                    "android.permission.MANAGE_DEVICE_ADMINS"
+            };
+            for (String perm : perms) {
+                if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED)
+                    getPermission(perm);
+            }
+        }
     }
 }

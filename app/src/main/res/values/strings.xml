@@ -6,6 +6,7 @@
     <string name="apk_parse_failed_message">Failed to parse apk file. Error message: $msg</string>
     <string name="apk_parse_failure">APK parse failure</string>
     <string name="app_icon">App Icon</string>
+    <string name="invalid_package_info">Invalid package info</string>
     <string name="app_name">Package Manager</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -19,8 +20,10 @@
     </string>
     <string name="install">Install</string>
     <string name="installation_confirm_message">Do you want to install this app?</string>
+    <string name="uninstall_confirm_message">Do you want to uninstall this app?</string>
     <string name="installing">Installing…</string>
     <string name="loading">Loading…</string>
+    <string name="uninstall">Uninstall</string>
     <string name="open">Open</string>
     <string name="package_installer">Package Installer</string>
     <string name="package_uninstaller">Package Uninstaller</string>

@@ -33,6 +33,9 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
     private static final int installationFailed = 3;
     private String path;
 
+    public PackageInstaller() throws Exception {
+    }
+
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +95,7 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
             }
             case parsePackageFailed: {
                 Toast.makeText(this, getResources().getString(R.string.apk_parse_failed_message)
-                        .replace("$msg", msg.obj.toString()), Toast.LENGTH_SHORT).show();
+                        .replace("$msg", msg.obj.toString()), Toast.LENGTH_SHORT). show();
                 ((TextView) findViewById(R.id.progressMessage)).setText(R.string.apk_parse_failure);
                 ((TextView) findViewById(R.id.hints)).setText(R.string.hints_apk_parse_failure);
                 ((TextView) findViewById(R.id.cancel)).setText(R.string.close);
@@ -133,7 +136,7 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
     }
 
     private void installPackage() throws Exception {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= 21) {
             final android.content.pm.PackageInstaller pi = getPackageManager().getPackageInstaller();
             final int sessionId = pi.createSession(new android.content.pm.PackageInstaller.SessionParams(android.content.pm.PackageInstaller.SessionParams.MODE_FULL_INSTALL));
             try (android.content.pm.PackageInstaller.Session session = pi.openSession(sessionId)) {
@@ -150,22 +153,19 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
                 final PendingIntent i = PendingIntent.getBroadcast(this, sessionId, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
                 session.commit(i.getIntentSender());
             }
-        } else StubApp.getStubInterface().pm().install(path);
+        } else StubInterfaceImpl.getInstance().pm().install(path);
     }
 
     private PackageInfo parsePackage() throws Exception {
-        final Intent i = getIntent();
-        if (i.getAction().equals(Intent.ACTION_VIEW)) {
-            final Uri uri = i.getData();
-            if (uri != null) {
-                final String path = saveTmpFile(getContentResolver().openInputStream(uri), "tmp.apk").getAbsolutePath();
-                final PackageInfo pi = getPackageManager().getPackageArchiveInfo(path, 0);
-                if (pi == null)
-                    throw new IOException("parse failure");
-                this.path = path;
-                return pi;
-            } else throw new IOException("URI data has not been set");
-        } else throw new IOException("Invalid intent action");
+        final Uri uri = getIntent().getData();
+        if (uri != null) {
+            final String path = saveTmpFile(getContentResolver().openInputStream(uri), "tmp.apk").getAbsolutePath();
+            final PackageInfo pi = getPackageManager().getPackageArchiveInfo(path, 0);
+            if (pi == null)
+                throw new IOException("parse failure");
+            this.path = path;
+            return pi;
+        } else throw new IOException("URI data has not been set");
     }
 
     @SuppressWarnings("SameParameterValue")
