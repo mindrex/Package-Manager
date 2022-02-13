@@ -1,20 +1,14 @@
 package com.android.pm;
 
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -82,7 +76,10 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
                         // install package
                         try {
                             installPackage();
-                            handler.sendEmptyMessage(installationFinished);
+                            final Message m = new Message();
+                            m.what = installationFinished;
+                            m.obj = pi;
+                            handler.sendMessage(m);
                         } catch (Exception e) {
                             final Message m = new Message();
                             m.what = installationFailed;
@@ -106,6 +103,20 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
                 ((TextView) findViewById(R.id.progressMessage)).setText(R.string.apk_installed);
                 ((TextView) findViewById(R.id.cancel)).setText(R.string.close);
                 ((ImageView) findViewById(R.id.progressIcon)).setImageDrawable(ContextCompat.getDrawable(this, R.drawable.success));
+                final TextView a = findViewById(R.id.open);
+                final PackageInfo pi = (PackageInfo) msg.obj;
+                final Intent i = getPackageManager().getLaunchIntentForPackage(pi.packageName);
+                if (i != null) {
+                    a.setVisibility(View.VISIBLE);
+                    a.setOnClickListener(view -> {
+                        try {
+                            startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(this, R.string.launch_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 return true;
             }
             case installationFailed: {
@@ -151,24 +162,10 @@ public final class PackageInstaller extends BasePmActivity implements Handler.Ca
                 final PackageInfo pi = getPackageManager().getPackageArchiveInfo(path, 0);
                 if (pi == null)
                     throw new IOException("parse failure");
-                createIconThumbnail(this, getPackageManager().getApplicationIcon(pi.applicationInfo));
                 this.path = path;
                 return pi;
             } else throw new IOException("URI data has not been set");
         } else throw new IOException("Invalid intent action");
-    }
-
-    @SuppressWarnings("UnusedReturnValue")
-    private static File createIconThumbnail(Context ctx, Drawable dr) throws Exception {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && dr.canApplyTheme())
-            dr.applyTheme(ctx.getTheme());
-        final Bitmap bm = Bitmap.createBitmap(dr.getIntrinsicWidth(), dr.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        final Canvas c = new Canvas(bm);
-        dr.draw(c);
-        final File f = new File(ctx.getCacheDir(), System.currentTimeMillis() + ".png");
-        bm.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(f));
-        bm.recycle();
-        return f;
     }
 
     @SuppressWarnings("SameParameterValue")

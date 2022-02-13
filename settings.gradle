@@ -1,2 +1,4 @@
+include ":app"
+include ":hookservicecore"
+project(":hookservicecore").projectDir = new File("../gmssig/hookservicecore/")
 rootProject.name = "Stub"
-include ':app'

@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2975" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2975" />
         <entry key="app/src/main/res/layout/package_installer.xml" value="0.2477355072463768" />
+        <entry key="app/src/main/res/layout/package_manager.xml" value="0.35733695652173914" />
         <entry key="app/src/main/res/layout/wifi_hotspot.xml" value="0.35733695652173914" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2975" />
       </map>

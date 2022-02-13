@@ -25,6 +25,7 @@
     <string name="package_installer">Package Installer</string>
     <string name="package_uninstaller">Package Uninstaller</string>
     <string name="package_manager">Package Manager</string>
+    <string name="launch_failed">Launch failed</string>
     <string name="state">State:</string>
     <string name="channel_disconnected">Channel disconnected</string>
     <string name="wifi_name">WIFI Name:</string>
